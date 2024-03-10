@@ -52,7 +52,7 @@ async def process_request(request: UserRequest):
 
 # Define the prompt structure
     prompt = PromptTemplate(
-    input_variables=["job_title", "query", "job_des", "skills", "resume"],
+    input_variables=["job_title", "query", "job_des", "resume"],
     template=prompt_template,
 )
 
