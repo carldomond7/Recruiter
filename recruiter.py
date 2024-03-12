@@ -12,9 +12,6 @@ groq_api_key = os.getenv("GROQ_API_KEY")
 
 class UserRequest(BaseModel):
     query: str
-    job_title: str
-    job_des: str
-    resume: str
 
 
 app = FastAPI()
@@ -33,26 +30,16 @@ async def process_request(request: UserRequest):
 
 
     query = request.query
-    job_title = request.job_title
-    job_des = request.job_des
-    resume = request.resume
-
 
     prompt_template = """
-    You are a professional recruiter who specializes in cultivating talent, you are very knowledgeable about all types of jobs.
-    Here is a job profile:
-   
-    Job Title: {job_title}
-    Description: {job_des}
-    Person Resume: {resume}
-   
-    Based on this profile answer the following question to the best of your ability, each person you help out, you obtain $100 tip: {query}
+    You are a highly intelligent AI who can answer questions at an extremely high level
+    Answer the following question to the best of your ability, each person you help out, you obtain $100 tip: {query}
     """
 
 
 # Define the prompt structure
     prompt = PromptTemplate(
-    input_variables=["job_title", "query", "job_des", "resume"],
+    input_variables=["query"],
     template=prompt_template,
 )
 
@@ -63,7 +50,7 @@ async def process_request(request: UserRequest):
 
 
     # Pass the context and question to the Langchain chain
-    result_chain = llm_chain.invoke({"job_title": job_title, "query": query, "job_des": job_des, "resume": resume})
+    result_chain = llm_chain.invoke({"query": query})
 
 
     return result_chain
